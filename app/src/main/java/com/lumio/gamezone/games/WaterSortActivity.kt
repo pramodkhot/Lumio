@@ -21,7 +21,7 @@ class WaterSortActivity : BaseGameActivity() {
 
     inner class TubeView(context: android.content.Context) : View(context) {
         var tube: MutableList<Int> = mutableListOf()
-        var isSelected = false
+        var tubeSelected = false
         private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         private val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             style = Paint.Style.STROKE; strokeWidth = 3f
@@ -31,7 +31,7 @@ class WaterSortActivity : BaseGameActivity() {
             val w = width.toFloat(); val h = height.toFloat()
             val segH = (h - 20) / CAPACITY
             // Border
-            borderPaint.color = if (isSelected) 0xFFFFD700.toInt() else 0x8800E5FF.toInt()
+            borderPaint.color = if (tubeSelected) 0xFFFFD700.toInt() else 0x8800E5FF.toInt()
             val rect = RectF(4f, 4f, w - 4f, h - 4f)
             canvas.drawRoundRect(rect, w / 2, 20f, borderPaint)
             // Fill segments from bottom
@@ -115,20 +115,20 @@ class WaterSortActivity : BaseGameActivity() {
         tubes.add(mutableListOf()); tubes.add(mutableListOf())
         selected = -1
         tvStatus.text = "Level $level — pour to sort!"
-        tubeViews.forEachIndexed { i, tv -> if (i < tubes.size) { tv.tube = tubes[i]; tv.isSelected = false; tv.invalidate() } }
+        tubeViews.forEachIndexed { i, tv -> if (i < tubes.size) { tv.tube = tubes[i]; tv.tubeSelected = false; tv.invalidate() } }
     }
 
     private fun onTubeClick(idx: Int) {
         if (selected == -1) {
             if (tubes[idx].isEmpty()) return
             selected = idx
-            tubeViews[idx].isSelected = true; tubeViews[idx].invalidate()
+            tubeViews[idx].tubeSelected = true; tubeViews[idx].invalidate()
         } else if (selected == idx) {
-            tubeViews[idx].isSelected = false; tubeViews[idx].invalidate(); selected = -1
+            tubeViews[idx].tubeSelected = false; tubeViews[idx].invalidate(); selected = -1
         } else {
             if (canPour(tubes[selected], tubes[idx])) {
                 pour(selected, idx)
-                tubeViews[selected].isSelected = false
+                tubeViews[selected].tubeSelected = false
                 tubeViews[selected].invalidate(); tubeViews[idx].invalidate()
                 selected = -1
                 if (isSolved()) {
@@ -137,9 +137,9 @@ class WaterSortActivity : BaseGameActivity() {
                     android.os.Handler(mainLooper).postDelayed({ startLevel() }, 1500)
                 }
             } else {
-                tubeViews[selected].isSelected = false; tubeViews[selected].invalidate()
+                tubeViews[selected].tubeSelected = false; tubeViews[selected].invalidate()
                 selected = idx
-                tubeViews[idx].isSelected = true; tubeViews[idx].invalidate()
+                tubeViews[idx].tubeSelected = true; tubeViews[idx].invalidate()
             }
         }
     }
