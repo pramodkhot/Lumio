@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_deep">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="40dp"
+        android:paddingBottom="16dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LUMIO"
+            android:textColor="@color/cyan"
+            android:textSize="38sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MULTI-GAME COLLECTION"
+            android:textColor="@color/text_muted"
+            android:textSize="10sp"
+            android:letterSpacing="0.4"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ALL GAMES  •  12 TITLES"
+        android:textColor="@color/text_muted"
+        android:textSize="10sp"
+        android:letterSpacing="0.3"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGames"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false" />
+
+</LinearLayout>

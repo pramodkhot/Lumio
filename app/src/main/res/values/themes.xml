@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Lumio" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/cyan</item>
+        <item name="colorPrimaryVariant">@color/bg_mid</item>
+        <item name="colorOnPrimary">@color/bg_deep</item>
+        <item name="android:windowBackground">@color/bg_deep</item>
+        <item name="android:statusBarColor">@color/bg_deep</item>
+        <item name="android:navigationBarColor">@color/bg_deep</item>
+    </style>
+    <style name="Theme.Lumio.Splash" parent="Theme.Lumio">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+</resources>
