@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -17,12 +18,13 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <!-- Required for FAN interstitial full-screen ads -->
+        <!-- Fix manifest merger conflict with FAN SDK's AudienceNetworkActivity -->
         <activity
             android:name="com.facebook.ads.AudienceNetworkActivity"
             android:exported="false"
             android:hardwareAccelerated="true"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            tools:replace="android:configChanges" />
 
         <activity
             android:name=".ui.SplashActivity"
