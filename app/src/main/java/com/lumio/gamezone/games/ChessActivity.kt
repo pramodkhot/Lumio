@@ -4,6 +4,7 @@ import android.graphics.*
 import android.os.Bundle
 import android.view.*
 import android.widget.*
+import com.lumio.gamezone.ads.AdManager
 import com.lumio.gamezone.ui.BaseGameActivity
 
 class ChessActivity : BaseGameActivity() {
@@ -348,6 +349,7 @@ class ChessActivity : BaseGameActivity() {
                 board[selectedR][selectedC] = null
                 selectedR=-1; selectedC=-1; validMoves.clear()
                 gameOver = true
+                AdManager.onGameCompleted() // trigger interstitial every 3rd game
                 val winner = if (whiteTurn) "WHITE (Yellow)" else "BLACK (Red)"
                 tvStatus.text = "👑 $winner WINS!"
                 tvStatus.setTextColor(if (whiteTurn) WHITE_COLOR else BLACK_COLOR)
