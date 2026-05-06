@@ -13,6 +13,10 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0.0"
+
+        // Facebook App ID accessible in code
+        resValue "string", "facebook_app_id", "1302824574544461"
+        resValue "string", "fb_login_protocol_scheme", "fb1302824574544461"
     }
 
     buildTypes {
@@ -48,4 +52,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
     implementation 'androidx.cardview:cardview:1.0.0'
+
+    // Facebook Audience Network SDK v6.21 (latest)
+    implementation 'com.facebook.android:audience-network-sdk:6.17.0'
 }
