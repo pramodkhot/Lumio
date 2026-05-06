@@ -33,16 +33,33 @@ jobs:
         with:
           gradle-version: '8.4'
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps 2>/dev/null || true
-
       - name: Build Debug APK
         if: ${{ github.event.inputs.build_type != 'release' }}
         run: gradle assembleDebug --no-daemon
 
-      - name: Build Release AAB
+      - name: Generate Keystore for Release
         if: ${{ github.event.inputs.build_type == 'release' }}
-        run: gradle bundleRelease --no-daemon
+        run: |
+          keytool -genkeypair \
+            -alias lumio-key \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -keystore lumio-release.jks \
+            -storepass lumio2024 \
+            -keypass lumio2024 \
+            -dname "CN=Lumio, OU=Games, O=Lumio, L=IN, ST=IN, C=IN"
+          echo "✅ Keystore generated"
+
+      - name: Build Signed Release AAB
+        if: ${{ github.event.inputs.build_type == 'release' }}
+        run: |
+          gradle bundleRelease \
+            -Pandroid.injected.signing.store.file=$(pwd)/lumio-release.jks \
+            -Pandroid.injected.signing.store.password=lumio2024 \
+            -Pandroid.injected.signing.key.alias=lumio-key \
+            -Pandroid.injected.signing.key.password=lumio2024 \
+            --no-daemon
 
       - name: Upload Debug APK
         if: ${{ github.event.inputs.build_type != 'release' }}
@@ -52,10 +69,10 @@ jobs:
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 14
 
-      - name: Upload Release AAB
+      - name: Upload Signed Release AAB
         if: ${{ github.event.inputs.build_type == 'release' }}
         uses: actions/upload-artifact@v4
         with:
           name: lumio-release-aab
           path: app/build/outputs/bundle/release/app-release.aab
-          retention-days: 14
+          retention-days: 30
