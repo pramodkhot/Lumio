@@ -3,6 +3,7 @@ package com.lumio.gamezone.ui
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.lumio.gamezone.ads.AdManager
 
 abstract class BaseGameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,6 +16,16 @@ abstract class BaseGameActivity : AppCompatActivity() {
         }
         window.statusBarColor = 0xFF080614.toInt()
         window.navigationBarColor = 0xFF080614.toInt()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Keep AdManager aware of current activity for showing ads
+        AdManager.attachActivity(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
