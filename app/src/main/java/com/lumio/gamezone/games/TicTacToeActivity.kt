@@ -133,7 +133,11 @@ class TicTacToeActivity : BaseGameActivity() {
 
         override fun onMeasure(wSpec: Int, hSpec: Int) {
             val w = MeasureSpec.getSize(wSpec)
-            setMeasuredDimension(w, w)
+            // Cap board at 80% of screen height so all UI elements always fit
+            val screenH = context.resources.displayMetrics.heightPixels
+            val maxBoard = (screenH * 0.48f).toInt()
+            val size = minOf(w, maxBoard)
+            setMeasuredDimension(w, size)
         }
     }
 
@@ -145,18 +149,14 @@ class TicTacToeActivity : BaseGameActivity() {
             setBackgroundColor(0xFF080614.toInt())
         }
 
-        // ── Scrollable main content ──────────────────────────────────────────
-        val scroll = ScrollView(this).apply {
-            isFillViewport = true
+        // ── Main content — NO ScrollView, use weights so board never hides text ──
+        val main = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(0xFF080614.toInt())
             layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
             )
-        }
-
-        val main = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setBackgroundColor(0xFF080614.toInt())
         }
 
         // ── Score header ─────────────────────────────────────────────────────
@@ -182,14 +182,16 @@ class TicTacToeActivity : BaseGameActivity() {
         }
         main.addView(modeContainer)
 
-        // ── Status — fixed height so it never hides ──────────────────────────
+        // ── Status — always visible, never collapses ─────────────────────────
         tvStatus = TextView(this).apply {
-            textSize = 16f
+            textSize = 15f
             gravity = Gravity.CENTER
             typeface = Typeface.DEFAULT_BOLD
-            // Fixed height = always visible, never collapses
+            minHeight = 52.dp
+            setPadding(16, 8, 16, 8)
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, 56.dp
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
             )
             setTextColor(0xFFFFD700.toInt())
         }
@@ -200,7 +202,7 @@ class TicTacToeActivity : BaseGameActivity() {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply { setMargins(20, 0, 20, 0) }
+            ).apply { setMargins(12, 0, 12, 0) }
             setOnTouchListener { _, ev ->
                 if (ev.action == MotionEvent.ACTION_UP && !gameOver)
                     boardView.cellAt(ev.x, ev.y)?.let { (r,c) -> onCellTap(r,c) }
@@ -217,7 +219,7 @@ class TicTacToeActivity : BaseGameActivity() {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply { setMargins(20, 12, 20, 4) }
+            ).apply { setMargins(12, 6, 12, 2) }
         }
 
         // Divider line above rule box
@@ -241,7 +243,7 @@ class TicTacToeActivity : BaseGameActivity() {
         val btnRow = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER
-            setPadding(20, 12, 20, 24)
+            setPadding(16, 8, 16, 16)
         }
         val btnNew = Button(this).apply {
             text = "🔄  NEW ROUND"; textSize = 13f
@@ -264,8 +266,7 @@ class TicTacToeActivity : BaseGameActivity() {
         btnRow.addView(btnNew); btnRow.addView(btnReset)
         main.addView(btnRow)
 
-        scroll.addView(main)
-        rootFrame.addView(scroll)
+        rootFrame.addView(main)
 
         // ── Full-screen overlay ───────────────────────────────────────────────
         overlayLayout = LinearLayout(this).apply {
