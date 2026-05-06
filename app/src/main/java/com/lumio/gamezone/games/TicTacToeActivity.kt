@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.*
 import android.view.animation.*
 import android.widget.*
+import com.lumio.gamezone.ads.AdManager
 import com.lumio.gamezone.ui.BaseGameActivity
 
 class TicTacToeActivity : BaseGameActivity() {
@@ -421,6 +422,7 @@ class TicTacToeActivity : BaseGameActivity() {
     private fun endGame(winner: Int) {
         gameOver = true
         boardView.invalidate()
+        AdManager.onGameCompleted() // triggers interstitial every 3rd game
         when (winner) {
             1 -> {
                 scores[0]++; tvP1Score.text = scores[0].toString()
