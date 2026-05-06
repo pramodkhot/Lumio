@@ -4,13 +4,25 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".LumioApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Lumio"
-        android:screenOrientation="portrait">
+        android:theme="@style/Theme.Lumio">
+
+        <!-- Facebook Audience Network App ID -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <!-- Required for FAN interstitial full-screen ads -->
+        <activity
+            android:name="com.facebook.ads.AudienceNetworkActivity"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
             android:name=".ui.SplashActivity"
@@ -23,70 +35,32 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.TicTacToeActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.ChessActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.LudoActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.AirHockeyActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.EightBallActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.CarromActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.WaterSortActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.BlockPuzzleActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.HexaFallActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.TileDomActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.DiceDomActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".games.CrazyKnifeActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.MainActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.TicTacToeActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.ChessActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.LudoActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.AirHockeyActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.EightBallActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.CarromActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.WaterSortActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.BlockPuzzleActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.HexaFallActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.TileDomActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.DiceDomActivity"
+            android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".games.CrazyKnifeActivity"
+            android:exported="false" android:screenOrientation="portrait" />
 
     </application>
 </manifest>
