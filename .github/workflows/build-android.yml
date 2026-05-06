@@ -1,9 +1,18 @@
-name: Build Android APK
+name: Build Android
 
 on:
   push:
     branches: [main, 'release/*']
   workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type'
+        required: true
+        default: 'debug'
+        type: choice
+        options:
+          - debug
+          - release
 
 jobs:
   build:
@@ -24,12 +33,26 @@ jobs:
         with:
           gradle-version: '8.4'
 
-      - name: Build debug APK
-        run: gradle assembleDebug --no-daemon --stacktrace
+      - name: Build Debug APK
+        if: ${{ github.event.inputs.build_type == 'debug' || github.event_name == 'push' }}
+        run: gradle assembleDebug --no-daemon
 
-      - name: Upload APK
+      - name: Build Release AAB (Play Store)
+        if: ${{ github.event.inputs.build_type == 'release' }}
+        run: gradle bundleRelease --no-daemon
+
+      - name: Upload Debug APK
+        if: ${{ github.event.inputs.build_type == 'debug' || github.event_name == 'push' }}
         uses: actions/upload-artifact@v4
         with:
-          name: lumio-kotlin-apk
+          name: lumio-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 14
+
+      - name: Upload Release AAB
+        if: ${{ github.event.inputs.build_type == 'release' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lumio-release-aab
+          path: app/build/outputs/bundle/release/app-release.aab
           retention-days: 14
