@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     private val games = listOf(
         GameItem("chess",       "Chess",          "♟",  "Strategy",   "2 Players",   true,  ChessActivity::class.java),
         GameItem("tictactoe",   "Tic Tac Toe",    "✕",  "Classic",    "2 Players",   false, TicTacToeActivity::class.java),
-        GameItem("ludo",        "Ludo",           "🎲", "Board Game", "2–4 Players", false, LudoActivity::class.java),
         GameItem("airhockey",   "Air Hockey",     "🏒", "Arcade",     "2 Players",   false, AirHockeyActivity::class.java),
         GameItem("eightball",   "8 Ball Pool",    "🎱", "Billiards",  "2 Players",   false, EightBallActivity::class.java),
         GameItem("carrom",      "Carrom",         "⚪", "Board Game", "2–4 Players", false, CarromActivity::class.java),
