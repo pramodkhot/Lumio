@@ -308,7 +308,7 @@ class TicTacToeActivity : BaseGameActivity() {
             textSize = 13f; gravity = Gravity.CENTER
             setTextColor(0xFF8892B0.toInt())
             setPadding(24, 8, 24, 8)
-            lineSpacingMultiplier = 1.4f
+            setLineSpacing(0f, 1.4f)
         }
         root.addView(tvRuleHint)
 
