@@ -20,23 +20,25 @@ data class GameItem(
     val type: String,
     val players: String,
     val featured: Boolean = false,
-    val activityClass: Class<*>
+    val activityClass: Class<*>?,
+    val comingSoon: Boolean = false
 )
 
 class MainActivity : AppCompatActivity() {
 
     private val games = listOf(
         GameItem("chess",       "Chess",          "♟",  "Strategy",   "2 Players",   true,  ChessActivity::class.java),
-        GameItem("tictactoe",   "Tic Tac Toe",    "✕",  "Classic",    "2 Players",   false, TicTacToeActivity::class.java),
-        GameItem("airhockey",   "Air Hockey",     "🏒", "Arcade",     "2 Players",   false, AirHockeyActivity::class.java),
-        GameItem("eightball",   "8 Ball Pool",    "🎱", "Billiards",  "2 Players",   false, EightBallActivity::class.java),
-        GameItem("carrom",      "Carrom",         "⚪", "Board Game", "2–4 Players", false, CarromActivity::class.java),
+        GameItem("tictactoe",   "Tic Tac Toe",    "✕",  "Classic",    "1–2 Players", false, TicTacToeActivity::class.java),
         GameItem("watersort",   "Water Sort",     "🧪", "Puzzle",     "Solo",        false, WaterSortActivity::class.java),
         GameItem("blockpuzzle", "Block Puzzle",   "🟦", "Puzzle",     "Solo",        false, BlockPuzzleActivity::class.java),
+        GameItem("tiledom",     "Tile Dom",       "🀄", "Memory",     "Solo",        false, TileDomActivity::class.java),
         GameItem("hexafall",    "Hexa Fall",      "⬡",  "Arcade",     "Solo",        false, HexaFallActivity::class.java),
-        GameItem("tiledom",     "Tile Dom",       "🀄", "Puzzle",     "Solo",        false, TileDomActivity::class.java),
-        GameItem("dicedom",     "Dice Dom",       "🎰", "Strategy",   "1–2 Players", false, DiceDomActivity::class.java),
-        GameItem("crazyknife",  "Crazy Knife",    "🔪", "Arcade",     "Solo",        false, CrazyKnifeActivity::class.java)
+        GameItem("crazyknife",  "Crazy Knife",    "🔪", "Arcade",     "Solo",        false, CrazyKnifeActivity::class.java),
+        GameItem("ludo",        "Ludo",           "🎲", "Board Game", "2–4 Players", false, LudoActivity::class.java, true),
+        GameItem("airhockey",   "Air Hockey",     "🏒", "Arcade",     "2 Players",   false, null, true),
+        GameItem("eightball",   "8 Ball Pool",    "🎱", "Billiards",  "2 Players",   false, null, true),
+        GameItem("carrom",      "Carrom",         "🔵", "Board Game", "2–4 Players", false, null, true),
+        GameItem("dicedom",     "Dice Dom",       "🎰", "Strategy",   "1–2 Players", false, null, true)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         val rv = findViewById<RecyclerView>(R.id.rvGames)
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = GameAdapter(games) { game ->
-            startActivity(Intent(this, game.activityClass))
+            game.activityClass?.let { startActivity(Intent(this, it)) }
         }
     }
 }
@@ -77,13 +79,27 @@ class GameAdapter(
         h.tvType.text = g.type.uppercase()
         h.tvPlayers.text = g.players
         h.tvFeatured.visibility = if (g.featured) View.VISIBLE else View.GONE
-        h.tvPlay.text = "▶ PLAY"
-        h.card.setOnClickListener { onClick(g) }
+
+        if (g.comingSoon) {
+            h.tvPlay.text = "🔜 SOON"
+            h.tvPlay.setTextColor(0xFF8892B0.toInt())
+            h.tvPlay.setBackgroundColor(0xFF1A1A2E.toInt())
+            h.tvName.setTextColor(0xFF8892B0.toInt())
+            h.card.alpha = 0.6f
+        } else {
+            h.tvPlay.text = "▶ PLAY"
+            h.tvPlay.setTextColor(0xFF00E5FF.toInt())
+            h.tvPlay.setBackgroundColor(0xFF0F1435.toInt())
+            h.tvName.setTextColor(0xFFFFFFFF.toInt())
+            h.card.alpha = 1f
+        }
+
         if (g.featured) {
-            h.card.setCardBackgroundColor(0xFF0F1435.toInt())
             h.tvPlay.setTextColor(0xFF000000.toInt())
             h.tvPlay.setBackgroundColor(0xFFFFD700.toInt())
         }
+
+        h.card.setOnClickListener { if (!g.comingSoon) onClick(g) }
     }
 
     override fun getItemCount() = items.size
