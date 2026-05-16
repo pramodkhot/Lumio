@@ -2,6 +2,8 @@ package com.lumio.gamezone.games
 
 import android.graphics.*
 import android.os.Bundle
+import android.os.Looper
+import android.os.Handler
 import android.view.*
 import android.widget.*
 import com.lumio.gamezone.ui.BaseGameActivity
